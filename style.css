@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; 
+  -khtml-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #e5e7e4;
+  letter-spacing: 0.001em;
+  line-height: 2;
+}
+
+h1{
+  text-align: left;
+  margin-top: 300px;
+  font-size: 50px;
+  letter-spacing: 0.01rem;
+  line-height: 50px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 200;
+}
+
+.h2{
+  text-align: left;
+  font-size: 30px;
+  letter-spacing: 0.01rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 200;
+}
+
+h3{
+  text-align: left;
+  font-size: 20px;
+  letter-spacing: 0.01rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 200;
+  margin-bottom: 500px;
+  margin-top: -30px;
+
+}
+
+.mainContainer {
+  padding-right: 27rem;
+  padding-left: 21rem;
+  padding-top: 20px;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.divA {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #E5E7E4;
+  font-family: 'Roboto', sans-serif;
+  flex-grow: 1;
+  margin-left: 100px;
+  /* transform: translateY(300px); */
+
+}
+
+.column {
+  margin-right: 30px;
+  margin-left: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+p {
+  text-indent: 50px;
+  letter-spacing: 0.03em;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  margin: 0;
+  font-size: 20px;
+}
+
+p {
+  text-indent: 50px;
+  letter-spacing: 0.03em;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  margin: 0;
+  font-size: 20px;
+}
+
+
+.in {
+  display: inline-block;
+  text-indent: 50px;
+  
+}
+
+.chapter {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  position: fixed;
+  margin-left: 137px ;
+  margin-top: 88px;
+  top: 0;
+}
+
+
+.chaptertext {
+  color : #e5e7e4;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; 
+}
+
+
+
+.narrator{
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+
+
+.computer{ /*computer talking*/
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+  /* color: green; */
+
+}
+
+
+
+.character1{
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+  /* color: black; */
+}
+
+
+.character2{
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+.character3{
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+
+
+.question{
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+.multivac{ /*computer mentioned*/
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+
+.ending{ /*chapter end*/
+  text-indent: 50px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  margin: 0;
+  font-size: 20px;
+}
+
+
+/* Set the width and height of the scrollbar track */
+::-webkit-scrollbar {
+  width: 15px;
+  height: 10px;
+  border: 1px solid black;
+}
+
+/* Set the background color of the scrollbar track */
+::-webkit-scrollbar-track {
+  background-color: #e5e7e4;
+  stroke: #000000;
+  border: 1px solid black;
+}
+
+/* Set the color and rounded corners of the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border: 1px solid black;
+}
