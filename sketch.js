@@ -626,7 +626,7 @@ function resetTimer() {
   idleTime = 0;
 }
 
-Attach the event listeners to detect user activity
+//Attach the event listeners to detect user activity
 document.addEventListener('scroll', resetTimer);
 
 
