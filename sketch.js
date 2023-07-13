@@ -625,11 +625,11 @@ function getLastVisibleElement() {
 // }
 
 // Attach the event listeners to detect user activity
-document.addEventListener('scroll', resetTimer);
-document.addEventListener('mousemove', resetTimer);
-document.addEventListener('keypress', resetTimer);
-document.addEventListener('touchstart', resetTimer);
-document.addEventListener('touchmove', resetTimer);
+// document.addEventListener('scroll', resetTimer);
+// document.addEventListener('mousemove', resetTimer);
+// document.addEventListener('keypress', resetTimer);
+// document.addEventListener('touchstart', resetTimer);
+// document.addEventListener('touchmove', resetTimer);
 
 
 //////NOTES TO KEEP:---------------------------------------------------
