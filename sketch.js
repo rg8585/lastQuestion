@@ -351,7 +351,7 @@ function changeFont(n){
       span.style.fontStyle = "italic"
     }
 
-    if(diceRoll>97 && styleChild=="narrator"){
+    if(diceRoll>97 && spanClass=="narrator"){
       span.style.fontFamily = "Roboto Condensed"
     }
 
@@ -496,6 +496,8 @@ function decreaseParagraphSize(n) {
 
 
 function nudgeParagraph(n) {
+
+  
   let paragraph = paragraphs[n];
   let currentMarginLeft = parseFloat(paragraph.style('margin-left'));
   let newMarginLeft = currentMarginLeft + random(-40, 30);
