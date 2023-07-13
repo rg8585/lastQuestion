@@ -6,7 +6,7 @@ let checker = 0
 let paragraphs = [];
 let paragraphsHT = [];
 let chapterIndex = 0;
-let cycles = 1
+let cycles = 2
 let cyclestr = 1
 let cycleAnimation = 0
 let direction = 0
@@ -608,30 +608,26 @@ function getLastVisibleElement() {
 
 //////------------------- timer
 
-// var idleTime = 0;
-// var idleInterval = setInterval(timerIncrement, 60000); // Check every minute
+var idleTime = 0;
+var idleInterval = setInterval(timerIncrement, 60000); // Check every minute
 
-// // Reset the timer and restart the page if no scrolling occurs for 15 minutes
-// function timerIncrement() {
-//   idleTime++;
-//   console.log(idleTime)
-//   if (idleTime >= 15) { // 15 minutes (15 * 60 seconds)
-//     window.scrollTo(0, 0);
-//     window.location.reload(); // Restart the page
-//   }
-// }
+// Reset the timer and restart the page if no scrolling occurs for 15 minutes
+function timerIncrement() {
+  idleTime++;
+  console.log(idleTime)
+  if (idleTime >= 15) { // 15 minutes (15 * 60 seconds)
+    window.scrollTo(0, 0);
+    window.location.reload(); // Restart the page
+  }
+}
 
-// // Reset the timer on any user activity (e.g., scroll, mouse movement, keypress)
-// function resetTimer() {
-//   idleTime = 0;
-// }
+// Reset the timer on any user activity (e.g., scroll, mouse movement, keypress)
+function resetTimer() {
+  idleTime = 0;
+}
 
-// Attach the event listeners to detect user activity
-// document.addEventListener('scroll', resetTimer);
-// document.addEventListener('mousemove', resetTimer);
-// document.addEventListener('keypress', resetTimer);
-// document.addEventListener('touchstart', resetTimer);
-// document.addEventListener('touchmove', resetTimer);
+Attach the event listeners to detect user activity
+document.addEventListener('scroll', resetTimer);
 
 
 //////NOTES TO KEEP:---------------------------------------------------
