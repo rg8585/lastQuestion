@@ -2,7 +2,7 @@
 
 
 
-let checker = 0
+let columnCheck = 0
 let paragraphs = [];
 let paragraphsHT = [];
 let chapterIndex = 0;
@@ -40,10 +40,13 @@ const cssClasses = [
 function setup() {
   canvas = createCanvas(windowWidth,windowHeight)
   canvas.position(0,0);
-  canvas.style('z-index','-1')
+  canvas.style('z-index','1')
   prepareText();
 }
 
+// function draw() {
+//   // background(0)
+// }
 
 
 function prepareText() {
@@ -201,20 +204,19 @@ function chaos() {
       let indexClassyParagraph = chooseRandomParagraph();
       let classy = findClass(paragraphs[indexClassyParagraph])
       chooseRandomFunction(functions,indexClassyParagraph)
-      // fixproblems(indexClassyParagraph)
     }
   }
 
 }
 
-function fixproblems(n){
-  let paragraph = paragraphs[n]
-  let paraR = paragraph.elt.getBoundingClientRect().right
+// function fixproblems(n){
+//   let paragraph = paragraphs[n]
+//   let paraR = paragraph.elt.getBoundingClientRect().right
 
-  if( paraH>windowHeight){
+//   if( paraH>windowHeight){
 
-  }
-}
+//   }
+// }
 
 
 function chooseRandomParagraph() {
@@ -286,9 +288,7 @@ function chooseRandomFunction(functions,n) {
 ///////////////////////////////changers
 
 
-function mouseClicked() {
-  changeFont(0)
-}
+
 
 function biggestSize() {
   let paragraph = paragraphs[0]
@@ -300,26 +300,18 @@ function biggestSize() {
     if (fontSize > biggestSize) {
       biggestSize = fontSize;
     }
-  print(biggestSize)
   });
 
   return biggestSize;
 }
 
-function addColumn(n) {
-  let paragraph = paragraphs[n]
-  print(paragraph.elt.textContent.length)
-  if(paragraph.elt.textContent.length > 230){
-    paragraph.style('columns', '2');
-  }
-}
+
 
 
 function changeFont(n){
 
   let paragraph = paragraphs[n]
   let spans = paragraph.elt.querySelectorAll("span");
-  print("hello")
 
   spans.forEach((span) => {
     let diceRoll = random(100)
@@ -362,7 +354,6 @@ function changeFont(n){
 function changeTracking(n){
   let paragraph = paragraphs[n]
   let spans = paragraph.elt.querySelectorAll("span");
-  print("hello")
 
   spans.forEach((span) => {
     let diceRoll = random(100)
@@ -392,7 +383,6 @@ function underlinging(n){
   if(diceRoll>70){
     let paragraph = paragraphs[n]
     let spans = paragraph.elt.querySelectorAll("span");
-    print("hello")
 
     spans.forEach((span) => {
       let spanClass = span.classList.value
@@ -410,56 +400,54 @@ function underlinging(n){
 
 function takeSide(n){
   let paragraph = paragraphs[n];
-  let children = paragraph.child();
-  for(let i=0; i<children.length ; i++ ){
-
-    let child = children[i]
-    let styleChild = children[i].classList[0]
-    let textSize = (parseInt(window.getComputedStyle(child).fontSize))
-    let marginLeft = (parseInt(window.getComputedStyle(child).marginLeft))
-    let marginRight = (parseInt(window.getComputedStyle(child).marginRight))
+  let spans = paragraph.elt.querySelectorAll("span");
 
 
-    
-    if (styleChild == "character1"){
-      child.style.justifyContent = "left";
-      child.style.display = "flex"
+  spans.forEach((span) => {
+    let spanClass = span.classList.value
+    let textSize = parseInt(window.getComputedStyle(span).fontSize)
+    let spacing = parseInt(window.getComputedStyle(span).letterSpacing)
+    let PaddingLeft = (parseInt(window.getComputedStyle(span).paddingLeft))
+    let PaddingRight = (parseInt(window.getComputedStyle(span).paddingRight))
+
+
+    if (spanClass == "character1"){
+      span.style.justifyContent = "left";
+      span.style.display = "flex"
       textSize += 1
       if(textSize<50){
-        child.style.fontSize = `${textSize}px`
-        
+        span.style.fontSize = `${textSize}px`
       }
     }
-    
-    
-    if (styleChild == "character2"){
-      child.style.justifyContent = "right";
-      child.style.display = "flex"
+
+    if (spanClass == "character2"){
+      span.style.justifyContent = "right";
+      span.style.display = "flex"
       textSize += 1
       if(textSize<50){
-        child.style.fontSize = `${textSize}px`;
+        span.style.fontSize = `${textSize}px`;
       }
     }
+
+
     
-    
-    if (styleChild == "narrator"){
-      child.style.justifyContent = "center";
+    if (spanClass == "narrator"){
+      span.style.justifyContent = "center";
       textSize += random(-1,1)
       if(textSize>11){
-        child.style.fontSize = `${textSize}px`
+        span.style.fontSize = `${textSize}px`
       }
 
     }
 
 
-  }
+  });
 }
 
 function increaseParagraphSize(n) {
 
   let paragraph = paragraphs[n]
   let spans = paragraph.elt.querySelectorAll("span");
-  print("hello")
 
 
   spans.forEach((span) => {
@@ -480,32 +468,32 @@ function increaseParagraphSize(n) {
 
 function decreaseParagraphSize(n) {
 
-  let paragraph = paragraphs[n];
-  let children = paragraph.child();
-  
-  for(let i=0; i<children.length ; i++ ){
-    let child = children[i]
-    let textSize = (parseInt(window.getComputedStyle(child).fontSize))
+
+  let paragraph = paragraphs[n]
+  let spans = paragraph.elt.querySelectorAll("span");
+
+
+  spans.forEach((span) => {
+    let diceRoll = random(100)
+    let textSize = parseInt(getComputedStyle(span).fontSize, 10);
     textSize -= 1
     if (textSize>11){
-      child.style.fontSize = `${textSize}px`
+      span.style.fontSize = `${textSize}px`
     }
-  }
-
+  });
 }
-
 
 function nudgeParagraph(n) {
 
   
   let paragraph = paragraphs[n];
-  let currentMarginLeft = parseFloat(paragraph.style('margin-left'));
-  let newMarginLeft = currentMarginLeft + random(-40, 30);
-  let currentMarginRight = parseFloat(paragraph.style('margin-right'));
-  let newMarginRight = currentMarginRight + random(-40, 30);
+  let currentPaddingLeft = parseFloat(paragraph.style('padding-left'));
+  let newPaddingLeft = currentPaddingLeft + random(-40, 30);
+  let currentPaddingRight = parseFloat(paragraph.style('padding-right'));
+  let newPaddingRight = currentPaddingRight + random(-40, 30);
   
-  paragraph.style('margin-left', newMarginLeft + 'px');
-  paragraph.style('margin-right', newMarginRight + 'px');
+  paragraph.style('padding-left', newPaddingLeft + 'px');
+  paragraph.style('padding-right', newPaddingRight + 'px');
   let paraX = paragraph.elt.getBoundingClientRect().x
   let paraY = paragraph.elt.getBoundingClientRect().y
   let paraR = paragraph.elt.getBoundingClientRect().right
@@ -513,13 +501,13 @@ function nudgeParagraph(n) {
 
 
   if (paraX < 0 || paraR > windowWidth){
-    paragraph.style('margin-left', '0px')
-    paragraph.style('margin-right', '0px')
+    paragraph.style('padding-left', '0px')
+    paragraph.style('padding-right', '0px')
   }
 
   if (paraW<10){
-    paragraph.style('margin-left', '0px')
-    paragraph.style('margin-right', '0px')
+    paragraph.style('padding-left', '434px')
+    paragraph.style('padding-right', '434px')
   }
 
 }
@@ -569,13 +557,6 @@ function getValue(object,kind){ //scale-y is in transform //rect height is the w
 
 
 
-function keyTyped() {
-  if (key == 'r'){
-    location.reload()
-  }
-}
-
-
 function changeCycle() {
   document.querySelector('h3').textContent = "cycle: [ "+cyclestr+" ]";
 }
@@ -614,10 +595,9 @@ var idleInterval = setInterval(timerIncrement, 60000); // Check every minute
 // Reset the timer and restart the page if no scrolling occurs for 15 minutes
 function timerIncrement() {
   idleTime++;
-  console.log(idleTime)
   if (idleTime >= 15) { // 15 minutes (15 * 60 seconds)
     window.scrollTo(0, 0);
-    window.location.reload(); // Restart the page
+    resetCSSChanges()
   }
 }
 
@@ -637,3 +617,65 @@ document.addEventListener('scroll', resetTimer);
 // 
 
 document.addEventListener('contextmenu', event => event.preventDefault());
+
+
+
+
+
+function resetCSSChanges() {
+  // Get all elements in the document
+  var elements = document.querySelectorAll("*");
+
+  // Iterate over each element
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+
+    // Remove the inline 'style' attribute
+    element.removeAttribute("style");
+  }
+}
+
+
+function mouseClicked(){
+  addColumn(3)  
+}
+
+
+function addColumn(n) {
+  let paragraph = paragraphs[n]
+
+  if(paragraph.elt.textContent.length > 230){
+    if(columnCheck < 3){
+      columnCheck ++
+      let diceRoll = random(100)
+      var paragraph1 = paragraphs[n].elt.innerText
+      var paragraph2 = paragraphs[n+1].elt.innerText
+      
+      // // Merge the paragraphs
+      var mergedParagraphs = paragraph1 + " " + paragraph2;
+      paragraphs[n].elt.innerText = mergedParagraphs
+
+
+      //remove from list and html
+      paragraphs[n+1].remove()
+      paragraphs.splice(n+1, 1)
+
+      paragraph.elt.removeAttribute("style");
+      paragraph.style('columns', '2');
+      paragraph.style('column-rule', '1px solid black');
+      paragraph.style('column-gap' ,'3em');
+
+      if(diceRoll > 50){
+        paragraph.style('padding-right','14px');
+        paragraph.style('padding-left','868px');  
+      }else{
+        paragraph.style('padding-right','868px');
+        paragraph.style('padding-left','14px');  
+      }
+      paragraph.style('padding-top','1000px');
+      paragraph.style('padding-bottom','14px');
+      paragraph.style('text-align','justify');
+    } 
+    
+  }
+}
