@@ -1,8 +1,5 @@
-
-
-
-
 let columnCheck = 0
+let borderCheck = 0
 let paragraphs = [];
 let paragraphsHT = [];
 let chapterIndex = 0;
@@ -12,7 +9,7 @@ let cycleAnimation = 0
 let direction = 0
 let contentHeight = 0
 var wheelDeltaY = 0;
-const functions = [nudgeParagraph,decreaseParagraphSize,increaseParagraphSize,takeSide,underlinging,changeFont,changeTracking];
+const functions = [nudgeParagraph,decreaseParagraphSize,increaseParagraphSize,takeSide,underlinging,changeFont,changeTracking,addColumn,gridLock];
 // const functions = [changeTracking]
 var scrollPosition
 var canvas
@@ -38,9 +35,9 @@ const cssClasses = [
 ];
 
 function setup() {
-  canvas = createCanvas(windowWidth,windowHeight)
-  canvas.position(0,0);
-  canvas.style('z-index','1')
+  // canvas = createCanvas(windowWidth,windowHeight)
+  // canvas.position(0,0);
+  // canvas.style('z-index','1')
   prepareText();
 }
 
@@ -115,9 +112,6 @@ document.addEventListener("wheel", function(event) {
 
   }
 
-  // console.log("cycle anim: " + cycleAnimation)
-  // console.log("scroll pos + 500 need bigger : " + scrollPosition+700)
-  // console.log("right side: need smaller" + (contentHeight - viewportHeight-600))
 
   // Check if reached the bottom of the div
   if ( getLastVisibleElement() >= paragraphs.length-2) {
@@ -126,7 +120,6 @@ document.addEventListener("wheel", function(event) {
     cycleAnimation -= deltaY*5
     quickswitch = false
     mainContainer.style('transform',`translateY(${cycleAnimation}px`)
-    console.log("im transforming")
 
 
     //cycle
@@ -143,10 +136,9 @@ document.addEventListener("wheel", function(event) {
   }
 
 
+
   if(scrollDifference>0){
-    if(bank%2>=1){
-      chaos();
-    }
+    chaos();
   }
 
   previousScrollPosition=scrollPosition
@@ -196,27 +188,57 @@ function trackScroll() {
 let selectedParagraphIndex;
 
 function chaos() {
-
   if (quickswitch){
     let currentHeight = getValue(divA, 'rectHeight');
-    multiplier = Math.min( 160, floor(( bank / 1000/2) * cycles ) ) ;
+    multiplier = Math.min( 100, floor(( bank / 1000/2) * cycles ) ) ;
     for (let c = 0; c < multiplier; c++) {
       let indexClassyParagraph = chooseRandomParagraph();
       let classy = findClass(paragraphs[indexClassyParagraph])
       chooseRandomFunction(functions,indexClassyParagraph)
+
+
+      //checkers
+
+      let checkW = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().width
+      let checkX = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().x
+      let checkR = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().right
+      let checkH = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().height
+
+      let currentMarginLeft = parseFloat(paragraphs[indexClassyParagraph].style('margin-left'));
+      let currentMarginRight = parseFloat(paragraphs[indexClassyParagraph].style('margin-right'));
+      if(currentMarginLeft<0){
+        paragraphs[indexClassyParagraph].style("margin-left","0px");
+      }
+      if(currentMarginRight < 0){
+        paragraphs[indexClassyParagraph].style("margin-right","0px");
+      }
+
+      while(checkH>1000){
+        let currentMarginLeft = parseFloat(paragraphs[indexClassyParagraph].style('margin-left'));
+        let currentMarginRight = parseFloat(paragraphs[indexClassyParagraph].style('margin-right'));
+        currentMarginLeft -= 1
+        currentMarginRight -= 1
+        paragraphs[indexClassyParagraph].style("margin-left",`${currentMarginLeft}px`);
+        paragraphs[indexClassyParagraph].style("margin-right",`${currentMarginRight}px`);
+        checkH = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().height
+        if(currentMarginLeft<0 || currentMarginRight<0){
+          paragraphs[indexClassyParagraph].style("margin-left",`0px`);
+          paragraphs[indexClassyParagraph].style("margin-right",`0px`);  
+          break
+        }
+      }
+
+
+      if(checkX<16){
+        paragraphs[indexClassyParagraph].style('margin-left', '16px')          
+      }
+      if(checkR<2048){
+        paragraphs[indexClassyParagraph].style('margin-right', '16px')          
+      }
     }
   }
 
 }
-
-// function fixproblems(n){
-//   let paragraph = paragraphs[n]
-//   let paraR = paragraph.elt.getBoundingClientRect().right
-
-//   if( paraH>windowHeight){
-
-//   }
-// }
 
 
 function chooseRandomParagraph() {
@@ -290,23 +312,37 @@ function chooseRandomFunction(functions,n) {
 
 
 
-function biggestSize() {
-  let paragraph = paragraphs[0]
+function smallestSize(n) {
+  let paragraph = paragraphs[n]
   let spans = paragraph.elt.querySelectorAll("span");
-  let biggestSize = 0;
+  let smallestSize = 2048; 
 
   spans.forEach((span) => {
-    let fontSize = parseInt(getComputedStyle(span).fontSize, 10);
-    if (fontSize > biggestSize) {
-      biggestSize = fontSize;
+    let widthSize =  span.getBoundingClientRect().width
+    let bfontSize = parseInt(window.getComputedStyle(span).fontSize)
+    if (widthSize < smallestSize && bfontSize<40) {
+      smallestSize = widthSize
     }
   });
 
-  return biggestSize;
+  return smallestSize;
 }
 
 
+function biggestFontSize(n) {
+  let paragraph = paragraphs[n]
+  let spans = paragraph.elt.querySelectorAll("span");
+  let biggestFontSize = 0; 
 
+  spans.forEach((span) => {
+    let bfontSize = parseInt(window.getComputedStyle(span).fontSize)
+    if (bfontSize>biggestFontSize) {
+      biggestFontSize = bfontSize
+    }
+  });
+
+  return biggestFontSize;
+}
 
 function changeFont(n){
 
@@ -407,8 +443,8 @@ function takeSide(n){
     let spanClass = span.classList.value
     let textSize = parseInt(window.getComputedStyle(span).fontSize)
     let spacing = parseInt(window.getComputedStyle(span).letterSpacing)
-    let PaddingLeft = (parseInt(window.getComputedStyle(span).paddingLeft))
-    let PaddingRight = (parseInt(window.getComputedStyle(span).paddingRight))
+    let marginLeft = (parseInt(window.getComputedStyle(span).marginLeft))
+    let marginRight = (parseInt(window.getComputedStyle(span).marginRight))
 
 
     if (spanClass == "character1"){
@@ -487,27 +523,24 @@ function nudgeParagraph(n) {
 
   
   let paragraph = paragraphs[n];
-  let currentPaddingLeft = parseFloat(paragraph.style('padding-left'));
-  let newPaddingLeft = currentPaddingLeft + random(-40, 30);
-  let currentPaddingRight = parseFloat(paragraph.style('padding-right'));
-  let newPaddingRight = currentPaddingRight + random(-40, 30);
-  
-  paragraph.style('padding-left', newPaddingLeft + 'px');
-  paragraph.style('padding-right', newPaddingRight + 'px');
-  let paraX = paragraph.elt.getBoundingClientRect().x
-  let paraY = paragraph.elt.getBoundingClientRect().y
-  let paraR = paragraph.elt.getBoundingClientRect().right
-  let paraW = paragraph.elt.getBoundingClientRect().width
-
-
-  if (paraX < 0 || paraR > windowWidth){
-    paragraph.style('padding-left', '0px')
-    paragraph.style('padding-right', '0px')
+  let currentMarginLeft = parseFloat(paragraph.style('margin-left'));
+  let newMarginLeft = currentMarginLeft + random(-30, 30);
+  let currentMarginRight = parseFloat(paragraph.style('margin-right'));
+  let newMarginRight = currentMarginRight + random(-30, 30);  
+  paragraph.style('margin-left', newMarginLeft + 'px');
+  paragraph.style('margin-right', newMarginRight + 'px');
+  let smallest =  smallestSize(n)
+  if(smallest<100){
+    paragraph.style('margin-left', '434px')
+    paragraph.style('margin-right', '434px')
   }
 
-  if (paraW<10){
-    paragraph.style('padding-left', '434px')
-    paragraph.style('padding-right', '434px')
+  let checkW = paragraph.elt.getBoundingClientRect().width
+  let checkX = paragraph.elt.getBoundingClientRect().x
+
+  if(checkX<0 || checkX+checkW>2048){
+    paragraph.style('margin-left', 0 + 'px');
+    paragraph.style('margin-right', 0 + 'px');
   }
 
 }
@@ -633,12 +666,11 @@ function resetCSSChanges() {
     // Remove the inline 'style' attribute
     element.removeAttribute("style");
   }
+  
 }
 
 
-function mouseClicked(){
-  addColumn(3)  
-}
+
 
 
 function addColumn(n) {
@@ -666,16 +698,49 @@ function addColumn(n) {
       paragraph.style('column-gap' ,'3em');
 
       if(diceRoll > 50){
-        paragraph.style('padding-right','14px');
-        paragraph.style('padding-left','868px');  
+        paragraph.style('margin-right','100px');
+        paragraph.style('margin-left','868px');  
       }else{
-        paragraph.style('padding-right','868px');
-        paragraph.style('padding-left','14px');  
+        paragraph.style('margin-right','868px');
+        paragraph.style('margin-left','100px');  
       }
-      paragraph.style('padding-top','1000px');
-      paragraph.style('padding-bottom','14px');
+      paragraph.style('margin-top','20px');
+      paragraph.style('margin-bottom','20px');
       paragraph.style('text-align','justify');
     } 
     
   }
+}
+
+function addLeftBorder(n) {
+  let paragraph = paragraphs[n]
+  paragraph.style.margin = "100px"
+  paragraph.style.borderLeft = "2px solid black";
+
+}
+
+
+
+function gridLock(n){
+  if(random(100)>98){
+    let fontSizeCheck = biggestFontSize(n)
+    if(fontSizeCheck>35){
+      var inc=1008
+      var gridSpot = random([16,520,1024])
+    }else{
+      var inc = 504
+      var gridSpot = random([16,520,1024,1528])
+    }
+    let paragraph = paragraphs[n]
+    let spans = paragraph.elt.querySelectorAll("span");
+    let rMargin =  2048 - (gridSpot + inc)
+    paragraph.removeAttribute("style");
+    paragraph.style('margin-left', gridSpot + 'px');
+    paragraph.style('margin-right', rMargin + 'px');  
+  }
+}
+
+
+function mouseClicked(){
+  gridLock(0)
 }
