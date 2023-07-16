@@ -213,7 +213,7 @@ function chaos() {
         paragraphs[indexClassyParagraph].style("margin-right","0px");
       }
 
-      while(checkH>1000){
+      while(checkH>1050){
         let currentMarginLeft = parseFloat(paragraphs[indexClassyParagraph].style('margin-left'));
         let currentMarginRight = parseFloat(paragraphs[indexClassyParagraph].style('margin-right'));
         currentMarginLeft -= 1
@@ -222,8 +222,9 @@ function chaos() {
         paragraphs[indexClassyParagraph].style("margin-right",`${currentMarginRight}px`);
         checkH = paragraphs[indexClassyParagraph].elt.getBoundingClientRect().height
         if(currentMarginLeft<0 || currentMarginRight<0){
-          paragraphs[indexClassyParagraph].style("margin-left",`0px`);
-          paragraphs[indexClassyParagraph].style("margin-right",`0px`);  
+          paragraphs[indexClassyParagraph].style("margin-left",`16px`);
+          paragraphs[indexClassyParagraph].style("margin-right",`16px`);  
+          print("hello")
           break
         }
       }
@@ -524,9 +525,9 @@ function nudgeParagraph(n) {
   
   let paragraph = paragraphs[n];
   let currentMarginLeft = parseFloat(paragraph.style('margin-left'));
-  let newMarginLeft = currentMarginLeft + random(-30, 30);
+  let newMarginLeft = currentMarginLeft + random(-10, 10);
   let currentMarginRight = parseFloat(paragraph.style('margin-right'));
-  let newMarginRight = currentMarginRight + random(-30, 30);  
+  let newMarginRight = currentMarginRight + random(-10, 10);  
   paragraph.style('margin-left', newMarginLeft + 'px');
   paragraph.style('margin-right', newMarginRight + 'px');
   let smallest =  smallestSize(n)
@@ -535,13 +536,13 @@ function nudgeParagraph(n) {
     paragraph.style('margin-right', '434px')
   }
 
-  let checkW = paragraph.elt.getBoundingClientRect().width
-  let checkX = paragraph.elt.getBoundingClientRect().x
+  // let checkW = paragraph.elt.getBoundingClientRect().width
+  // let checkX = paragraph.elt.getBoundingClientRect().x
 
-  if(checkX<0 || checkX+checkW>2048){
-    paragraph.style('margin-left', 0 + 'px');
-    paragraph.style('margin-right', 0 + 'px');
-  }
+  // if(checkX<0 || checkX+checkW>2048){
+  //   paragraph.style('margin-left', 0 + 'px');
+  //   paragraph.style('margin-right', 0 + 'px');
+  // }
 
 }
 
