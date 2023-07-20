@@ -240,7 +240,6 @@ function chaos() {
 
 
 function chooseRandomParagraph() {
-
   let index = 0
   index = Math.floor( random(getLastVisibleElement(),paragraphs.length));
   return index;
