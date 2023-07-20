@@ -35,15 +35,8 @@ const cssClasses = [
 ];
 
 function setup() {
-  // canvas = createCanvas(windowWidth,windowHeight)
-  // canvas.position(0,0);
-  // canvas.style('z-index','1')
   prepareText();
 }
-
-// function draw() {
-//   // background(0)
-// }
 
 
 function prepareText() {
@@ -213,6 +206,10 @@ function chaos() {
         paragraphs[indexClassyParagraph].style("margin-right","0px");
       }
 
+      if(currentMarginRight < 0 && currentMarginLeft<0){
+        gridLock(indexClassyParagraph);
+      }
+
       while(checkH>1050){
         let currentMarginLeft = parseFloat(paragraphs[indexClassyParagraph].style('margin-left'));
         let currentMarginRight = parseFloat(paragraphs[indexClassyParagraph].style('margin-right'));
@@ -245,12 +242,7 @@ function chaos() {
 function chooseRandomParagraph() {
 
   let index = 0
-  
-  if(cyclestr>1){
-    index = Math.floor( random(getLastVisibleElement(),paragraphs.length));
-  }else{
-    index = Math.floor( Math.random() * paragraphs.length);
-  }
+  index = Math.floor( random(getLastVisibleElement(),paragraphs.length));
   return index;
 }
 
@@ -739,9 +731,4 @@ function gridLock(n){
     paragraph.style('margin-left', gridSpot + 'px');
     paragraph.style('margin-right', rMargin + 'px');  
   }
-}
-
-
-function mouseClicked(){
-  gridLock(0)
 }
